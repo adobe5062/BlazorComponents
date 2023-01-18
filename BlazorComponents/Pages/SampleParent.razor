@@ -1,0 +1,88 @@
+﻿@page "/parent"
+@using BlazorComponents.Models
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+
+<div class="container" style="width:400px;" >
+
+
+    <EditForm Model="@currentEntry" OnValidSubmit="@AddEntry" class="row g-3">
+       <DataAnnotationsValidator />
+        <ValidationSummary />
+      <div class="col-12">
+        <DateRangePicker @bind-StartDate="currentEntry.StartDate" @bind-EndDate="currentEntry.EndDate" ></DateRangePicker>
+      </div>
+        <div class="col-12">
+        <label for="inputAddress" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="John" @bind="currentEntry.FirstName">
+      </div>
+      <div class="col-12">
+        <label for="inputAddress2" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="inputAddress2" placeholder="Smith" @bind="currentEntry.LastName">
+      </div>
+      <div class="col-12">
+      <MultiSelect @bind-SelectedItemsHash="@currentEntry.MultiSelectItems"></MultiSelect>
+        </div>
+      <div  class="col-12 ">
+        <button  type="submit"  class="btn btn-primary">Submit</button>
+      </div>
+    </EditForm>
+
+    
+</div>
+
+<div class="mt-5">
+         <table>
+        @{
+                <tr>
+                <th>LastName</th>
+                <th>FirstName</th>
+                <th>Colors</th>
+                <th>Date</th>
+                </tr>
+            foreach (var entry in entries)
+            {
+           
+                
+                <tr>
+                    <td>@entry.LastName</td><td> @entry.FirstName</td><td>
+                            @string.Join(",", @entry.MultiSelectItems)
+                        </td><td>@entry.StartDate -  @entry.EndDate</td>
+                </tr>
+             
+            }
+        }
+        </table>
+    </div>
+
+@code {
+
+    private List<SampleForm> entries = new();
+    private SampleForm currentEntry = new();
+    
+
+    private void AddEntry()
+    {
+
+        entries.Add(currentEntry);
+        currentEntry = new SampleForm();
+    }
+
+
+}

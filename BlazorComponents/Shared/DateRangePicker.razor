@@ -1,0 +1,48 @@
+﻿<style>
+    .picker {
+        cursor: pointer;
+    }
+</style>
+
+
+<label for="dates" class="form-label">Dates</label>
+<div class="input-group"  id="dates">
+    <input @onchange="UpdateStartDate" type="date" class="form-control picker">
+    <span class="input-group-text">to</span>
+    <input @onchange="UpdateEndDate" type="date" class="form-control picker"  >
+</div>
+
+@code {
+    private string? startInput;
+    private string? endInput;
+
+    [Parameter]
+    public DateTime StartDate { get; set; }
+
+    [Parameter]
+    public DateTime EndDate { get; set; }
+
+
+
+    [Parameter]
+    public EventCallback<DateTime> StartDateChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<DateTime> EndDateChanged { get; set; }
+
+    private async Task  UpdateStartDate(ChangeEventArgs e)
+    {
+        startInput = e.Value.ToString();
+        StartDate = DateTime.Parse(startInput);
+        await StartDateChanged.InvokeAsync(StartDate);
+    }
+
+    private async Task UpdateEndDate(ChangeEventArgs e)
+    {
+        endInput = e.Value.ToString();
+        EndDate = DateTime.Parse(endInput);
+        await EndDateChanged.InvokeAsync(EndDate);
+    }
+
+   
+}
