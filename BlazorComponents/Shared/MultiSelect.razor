@@ -2,11 +2,11 @@
 
 <style>
     ul {
-        list-style-type : none;
+        list-style-type: none;
         left: none;
     }
 
-    .search-icon{
+    .search-icon {
         font-size: 25px;
     }
 
@@ -15,7 +15,6 @@
     }
 
     .scrollable {
-        
         height: 150px;
         overflow-x: hidden;
         overflow-y: auto;
@@ -23,59 +22,53 @@
     }
 
     .dropdown {
-        
         position: fixed;
         width: 380px;
-        display:block;
+        display: block;
     }
 
 
 
-    .dropdown-button{
+    .dropdown-button {
         cursor: pointer;
         width: 380px;
     }
 
 </style>
 
- <label for="select" class="form-label">Colors</label>
+<label for="select" class="form-label">Colors</label>
 
 <div class="form-control dropdown-button" @onclick="ShowDropDown">
     @selectedCount <i class="float-end">&#9660;</i>
 </div>
 
-<div  class="card dropdown" hidden=@hideMenu>
-    <div   class="m-3 ">
+<div class="card dropdown" hidden=@hideMenu>
+    <div class="m-3 ">
         <div class="input-group mb-3">
-         
-          <input @bind-value="SearchText" @bind-value:event="oninput" type="text" class="form-control" >
-          <div class="input-group-append">
-            <span class="input-group-text"><i class="search-icon oi oi-magnifying-glass"></i></span>
-          </div>
+            <input @bind-value="SearchText" @bind-value:event="oninput" type="text" class="form-control">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="search-icon oi oi-magnifying-glass"></i></span>
+            </div>
         </div>
-    <div class="scrollable">
-    <ul>
-        <li >
-            <label class="label"> 
-                <input class="form-check-input me-3 ms-2" type="checkbox" @bind="@selectAll" @onclick="eventArgs => { SelectAll(); }" > <strong>Select all</strong>
-            </label>
-        </li>
-    @{
-        foreach(var item in FilteredDropDown)
-        {
-         <li >
-            <label class="label"> 
-                <input class="form-check-input me-3 ms-2" checked="@item.IsChecked" @onchange="eventArgs => { CheckBoxClickedHash(item); }" type="checkbox" name="@item.Value" value="@item.Value"> @item.Value
-            </label>
-        </li>
-        }
-     }
-    </ul>
-    </div>
+        <div class="scrollable">
+            <ul>
+                <li>
+                    <label class="label">
+                        <input class="form-check-input me-3 ms-2" type="checkbox" @bind="@selectAll" @onclick="eventArgs => { SelectAll(); }"> <strong>Select all</strong>
+                    </label>
+                </li>
+                @foreach (var item in FilteredDropDown)
+                {
+                    <li>
+                        <label class="label">
+                            <input class="form-check-input me-3 ms-2" checked="@item.IsChecked" @onchange="eventArgs => { CheckBoxClickedHash(item); }" type="checkbox" name="@item.Value" value="@item.Value"> @item.Value
+                        </label>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 </div>
-
-
 
 
 @code {
@@ -84,7 +77,7 @@
     private bool hideMenu = true;
     private string selectedCount = "please select filter options...";
     private string SearchText = "";
-    private List<MultiSelectDropDown> Ddl { get; set; } = new ();
+    private List<MultiSelectDropDown> Ddl { get; set; } = new();
     List<MultiSelectDropDown> FilteredDropDown => Ddl.Where(x => x.Value.ToLower().Contains(SearchText.ToLower())).ToList();
 
     [Parameter]
@@ -123,14 +116,15 @@
         return selectedCount;
     }
 
-    private string SelectAll(){
+    private string SelectAll()
+    {
         selectAll = !selectAll;
 
         if (selectAll)
         {
-            foreach(var item in FilteredDropDown)
+            foreach (var item in FilteredDropDown)
             {
-                if(!SelectedItemsHash.Contains(item.Value))
+                if (!SelectedItemsHash.Contains(item.Value))
                 {
                     SelectedItemsHash.Add(item.Value);
                     item.IsChecked = true;
@@ -139,7 +133,7 @@
         }
         else
         {
-            foreach(var item in Ddl)
+            foreach (var item in Ddl)
             {
                 item.IsChecked = false;
             }
@@ -151,9 +145,10 @@
         return selectedCount;
     }
 
-  
 
-    private void ShowDropDown(){
+
+    private void ShowDropDown()
+    {
         hideMenu = !hideMenu;
 
     }

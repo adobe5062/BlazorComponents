@@ -4,25 +4,19 @@
     }
 </style>
 
-
 <label for="dates" class="form-label">Dates</label>
-<div class="input-group"  id="dates">
-    <input @onchange="UpdateStartDate" type="date" class="form-control picker">
+<div class="input-group" id="dates">
+    <InputDate @bind-Value="boundStartDate" class="form-control picker"></InputDate>
     <span class="input-group-text">to</span>
-    <input @onchange="UpdateEndDate" type="date" class="form-control picker"  >
+    <InputDate @bind-Value="boundEndDate" class="form-control picker"></InputDate>
 </div>
 
 @code {
-    private string? startInput;
-    private string? endInput;
-
     [Parameter]
     public DateTime StartDate { get; set; }
 
     [Parameter]
     public DateTime EndDate { get; set; }
-
-
 
     [Parameter]
     public EventCallback<DateTime> StartDateChanged { get; set; }
@@ -30,19 +24,15 @@
     [Parameter]
     public EventCallback<DateTime> EndDateChanged { get; set; }
 
-    private async Task  UpdateStartDate(ChangeEventArgs e)
+    private DateTime boundStartDate
     {
-        startInput = e.Value.ToString();
-        StartDate = DateTime.Parse(startInput);
-        await StartDateChanged.InvokeAsync(StartDate);
+        get => StartDate;
+        set => StartDateChanged.InvokeAsync(value);
     }
 
-    private async Task UpdateEndDate(ChangeEventArgs e)
+    private DateTime boundEndDate
     {
-        endInput = e.Value.ToString();
-        EndDate = DateTime.Parse(endInput);
-        await EndDateChanged.InvokeAsync(EndDate);
+        get => EndDate;
+        set => EndDateChanged.InvokeAsync(value);
     }
-
-   
 }
