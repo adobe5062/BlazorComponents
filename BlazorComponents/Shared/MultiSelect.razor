@@ -78,8 +78,13 @@
     private bool hideMenu = true;
     private string selectedCount = "please select filter options...";
     private string SearchText = "";
-    private List<MultiSelectDropDown> Ddl { get; set; } = new();
-    List<MultiSelectDropDown> FilteredDropDown => Ddl.Where(x => x.Value.ToLower().Contains(SearchText.ToLower())).ToList();
+
+    [Parameter]
+    public List<MultiSelectDropDown> MenuItems { get; set; } = new();
+
+    List<MultiSelectDropDown> FilteredDropDown => MenuItems.Where(x => x.Value.ToLower().Contains(SearchText.ToLower())).ToList();
+
+    
 
     [Parameter]
     public HashSet<string> SelectedItemsHash { get; set; }
@@ -103,16 +108,7 @@
     }
 
 
-    protected override void OnInitialized()
-    {
-        //get ddl
-        Ddl.Add(new MultiSelectDropDown { Value = "red", IsChecked = false });
-        Ddl.Add(new MultiSelectDropDown { Value = "blue", IsChecked = false });
-        Ddl.Add(new MultiSelectDropDown { Value = "green", IsChecked = false });
-        Ddl.Add(new MultiSelectDropDown { Value = "black", IsChecked = false });
-        Ddl.Add(new MultiSelectDropDown { Value = "purple", IsChecked = false });
-        Ddl.Add(new MultiSelectDropDown { Value = "yellow", IsChecked = false });
-    }
+
 
     protected string CheckBoxClickedHash(MultiSelectDropDown checkedItem)
     {
@@ -150,7 +146,7 @@
         }
         else
         {
-            foreach (var item in Ddl)
+            foreach (var item in MenuItems)
             {
                 item.IsChecked = false;
             }

@@ -34,7 +34,7 @@
             <InputText type="text" class="form-control" placeholder="Smith" @bind-Value="currentEntry.LastName"></InputText>
         </div>
             <div class="col-12">
-            <MultiSelect @bind-SelectedItemsHash="currentEntry.MultiSelectItems"></MultiSelect>
+            <MultiSelect MenuItems="@Ddl" @bind-SelectedItemsHash="currentEntry.MultiSelectItems"></MultiSelect>
         </div>
             <div class="col-12">
             <button  type="submit"  class="btn btn-primary">Submit</button>
@@ -70,6 +70,8 @@
         EndDate = DateTime.UtcNow
     };
 
+    //instantiate drop down list
+    public List<MultiSelectDropDown> Ddl = new();
 
     private void AddEntry()
     {
@@ -82,5 +84,16 @@
                 MultiSelectItems = currentEntry.MultiSelectItems
 
             });
+    }
+
+    protected override void OnInitialized()
+    {
+       //get list for dropdown
+        Ddl.Add(new MultiSelectDropDown { Value = "red", IsChecked = false });
+        Ddl.Add(new MultiSelectDropDown { Value = "blue", IsChecked = false });
+        Ddl.Add(new MultiSelectDropDown { Value = "green", IsChecked = false });
+        Ddl.Add(new MultiSelectDropDown { Value = "black", IsChecked = false });
+        Ddl.Add(new MultiSelectDropDown { Value = "purple", IsChecked = false });
+        Ddl.Add(new MultiSelectDropDown { Value = "yellow", IsChecked = false });
     }
 }
